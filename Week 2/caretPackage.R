@@ -24,3 +24,27 @@ predictions
 
 #evaluate the predictions
 confusionMatrix(predictions,test$type)
+
+##### cross validation data slicing lecture
+set.seed(32323)
+
+#you can either return the train or the test set with the returnTrain parameter
+folds<- createFolds(y=spam$type,k=10,list=TRUE,returnTrain = T)
+sapply(folds, length)
+
+#using resampling
+folds<- createResample(y=spam$type, times=10,list = TRUE)
+
+sapply(folds, length)
+folds[[1]][1:10]
+
+#create times slices, for continuous values in time
+#creates a slice that has a window of 20 samples in it, and I'm going to predict the next 10
+tme<- 1:1000
+folds<- createTimeSlices(y=tme, initialWindow = 20, horizon = 10)
+names(folds)
+
+folds$train[3]
+folds$test[3]
+
+###training options
